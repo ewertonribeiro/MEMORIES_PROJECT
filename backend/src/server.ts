@@ -10,7 +10,7 @@ InitDb();
 
 const server = express();
 
-server.use(express.urlencoded({ limit: '30mb', extended: true }));
+server.use(express.urlencoded({ extended: true }));
 server.use(express.json());
 server.use(cors());
 

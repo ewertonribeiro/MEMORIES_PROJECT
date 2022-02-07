@@ -4,9 +4,9 @@ export interface Post {
   title: string;
   message: string;
   creator: string;
-  tags?: string[];
+  tags?: string;
   selectedFile: string;
-  likecount: number;
+  likecount?: number;
   createdAt: Date;
 }
 
@@ -20,7 +20,10 @@ const PostSchema = new Schema<Post>({
     type: Date,
     default: new Date(),
   },
-  likecount: Number,
+  likecount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 export { PostSchema };
