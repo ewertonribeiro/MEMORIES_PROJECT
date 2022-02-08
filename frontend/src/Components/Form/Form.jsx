@@ -4,9 +4,8 @@ import useStyles from './style.js';
 
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 
-import { API } from '../../Api/api';
 import { useAppDispatch } from '../../Redux/ReduxHooks';
-import { CreatePost } from '../../Redux/Reducers/PostsReducer';
+import { CreatePost, FetchPosts } from '../../Redux/Reducers/PostsReducer';
 // interface Posts {
 //   title?: string;
 //   message?: string;
@@ -14,8 +13,6 @@ import { CreatePost } from '../../Redux/Reducers/PostsReducer';
 //   tags?: string;
 //   selectedFile?: string | ArrayBuffer | null;
 // }
-
-// const Api = new API();
 
 export function Form() {
   const classes = useStyles();
@@ -30,6 +27,10 @@ export function Form() {
     if (!postData) return;
 
     dispatch(CreatePost(postData));
+
+    setTimeout(() => {
+      dispatch(FetchPosts());
+    }, 1000);
     clear();
   }
 
