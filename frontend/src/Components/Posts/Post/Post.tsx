@@ -11,6 +11,9 @@ import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
+import { useAppDispatch } from '../../../Redux/ReduxHooks';
+import { setselectedId } from '../../../Redux/Reducers/PostsReducer';
+
 type ReceivedPost = {
   createdAt: Date;
   creator: string;
@@ -29,6 +32,12 @@ interface Post {
 export function Post({ post }: Post) {
   const classes = useStyles();
 
+  const dispatch = useAppDispatch();
+
+  function getPostId() {
+    dispatch(setselectedId(post._id));
+  }
+
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -44,7 +53,7 @@ export function Post({ post }: Post) {
         <Typography variant='body2'>{post.createdAt}</Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button style={{ color: 'white' }} size='small'>
+        <Button style={{ color: 'white' }} size='small' onClick={getPostId}>
           <MoreHorizIcon fontSize='medium' />
         </Button>
       </div>

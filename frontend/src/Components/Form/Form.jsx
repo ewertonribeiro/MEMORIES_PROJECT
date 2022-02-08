@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import useStyles from './style.js';
 
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 
-import { useAppDispatch } from '../../Redux/ReduxHooks';
+import { useAppDispatch, useAppSelector } from '../../Redux/ReduxHooks';
 import { CreatePost, FetchPosts } from '../../Redux/Reducers/PostsReducer';
 // interface Posts {
 //   title?: string;
@@ -19,18 +19,44 @@ export function Form() {
 
   const dispatch = useAppDispatch();
 
-  const [postData, setPostData] = useState(null);
+  const selectedId = useAppSelector((store) => store.posts.selectedPostId);
+
+  const selectedPost = useAppSelector((store) =>
+    store.posts.posts.find((post) => post._id === selectedId)
+  );
+
+  useEffect(() => {
+    if (!selectedId) return;
+    const selectePost = {
+      title: selectedPost.title,
+      message: selectedPost.message,
+      creator: selectedPost.creator,
+      tags: selectedPost.tags,
+    };
+    setPostData(selectePost);
+  }, [selectedId]);
+
+  const [postData, setPostData] = useState({
+    title: '',
+    message: '',
+    creator: '',
+    tags: '',
+    selectedFile: '',
+  });
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if (!postData) return;
+    if (!selectedId) {
+      dispatch(CreatePost(postData));
 
-    dispatch(CreatePost(postData));
+      setTimeout(() => {
+        dispatch(FetchPosts());
+      }, 1000);
+    } else {
+      console.log(selectedPost);
+    }
 
-    setTimeout(() => {
-      dispatch(FetchPosts());
-    }, 1000);
     clear();
   }
 
@@ -52,7 +78,7 @@ export function Form() {
       creator: '',
       message: '',
       tags: '',
-      selectedFile: null,
+      selectedFile: '',
       title: '',
     });
   }
@@ -65,7 +91,9 @@ export function Form() {
         className={`${classes.form} ${classes.root}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant='h2'>Creating a Memory!</Typography>
+        <Typography variant='h2'>
+          {!selectedId ? 'Creating' : 'Editing'} a Memory!
+        </Typography>
         <TextField
           name='creator'
           variant='outlined'
@@ -103,13 +131,15 @@ export function Form() {
           onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
         />
         <div className={classes.fileInput}>
-          <input
-            type='file'
-            placeholder='Select a Photo!'
-            name='photo'
-            accept='image/*'
-            onChange={(e) => handlePhoto(e)}
-          />
+          {!selectedId ? (
+            <input
+              type='file'
+              placeholder='Select a Photo!'
+              name='photo'
+              accept='image/*'
+              onChange={(e) => handlePhoto(e)}
+            />
+          ) : null}
           <Button
             className={classes.buttonSubmit}
             type='submit'

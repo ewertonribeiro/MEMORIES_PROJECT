@@ -3,21 +3,11 @@ import useStyles from './style.js';
 
 import { useAppSelector } from '../../Redux/ReduxHooks';
 
-import { useEffect , useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CircularProgress, Grid } from '@material-ui/core';
 
 import { FetchPosts } from '../../Redux/Reducers/PostsReducer';
-// interface PostSingle {
-//   title?: string;
-//   message?: string;
-//   creator?: string;
-//   tags?: string;
-//   selectedFile?: string | ArrayBuffer | null;
-//   createdAt: Date;
-//   _id: string;
-//   likecount: number;
-// }
 
 export function Posts() {
   const classes = useStyles();

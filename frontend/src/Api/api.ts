@@ -32,6 +32,17 @@ class API {
       throw new Error(error.message);
     }
   }
+  async editPost(post: Posts | null) {
+    try {
+      const { data } = await axios.patch(
+        `${this.baseUrl}/posts/editpost`,
+        post
+      );
+      return data;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
 }
 
 export { API };

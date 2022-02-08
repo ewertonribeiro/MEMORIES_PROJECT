@@ -18,4 +18,4 @@ const port = process.env.PORT;
 
 server.use('/posts', postRouter);
 
-server.listen(port, () => console.log(`Serer is running on port : ${port}`));
+server.listen(port, () => console.log(`Server is running on port : ${port}`));

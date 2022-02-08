@@ -43,9 +43,15 @@ export const PostsSlice = createSlice({
   initialState: {
     posts: [] as Posts[],
     status: 'idle' || 'loading' || 'failed',
+    selectedPostId: null,
   },
   reducers: {
-    fetchPosts: (state) => {},
+    setselectedId: (state, action) => {
+      state.selectedPostId = action.payload;
+    },
+    clearSelectedPostId: (state) => {
+      state.selectedPostId = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -65,6 +71,6 @@ export const PostsSlice = createSlice({
   },
 });
 
-export const { fetchPosts } = PostsSlice.actions;
+export const { setselectedId, clearSelectedPostId } = PostsSlice.actions;
 
 export default PostsSlice.reducer;

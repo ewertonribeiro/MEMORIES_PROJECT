@@ -8,6 +8,7 @@ export interface Post {
   selectedFile: string;
   likecount?: number;
   createdAt: Date;
+  _id?: string;
 }
 
 const PostSchema = new Schema<Post>({
