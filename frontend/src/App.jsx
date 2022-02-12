@@ -8,7 +8,7 @@ import useStyles from './style.js';
 import { useEffect } from 'react';
 
 import { useAppDispatch } from './Redux/ReduxHooks';
-import { FetchPosts } from './Redux/Reducers/PostsReducer';
+import { FetchPosts } from './Redux/Reducers/PostReducer-Thunks';
 
 function App() {
   const classes = useStyles();

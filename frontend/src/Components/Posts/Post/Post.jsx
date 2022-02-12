@@ -12,30 +12,46 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 import { useAppDispatch } from '../../../Redux/ReduxHooks';
-import { setselectedId } from '../../../Redux/Reducers/PostsReducer';
+import {
+  incrementLike,
+  setselectedId,
+} from '../../../Redux/Reducers/PostsReducer';
 
-type ReceivedPost = {
-  createdAt: Date;
-  creator: string;
-  title: string;
-  message: string;
-  likecount: number;
-  tags: string;
-  _id: string;
-  selectedFile: string;
-};
+import { IncrementLike } from '../../../Redux/Reducers/PostReducer-Thunks';
 
-interface Post {
-  post: ReceivedPost;
-}
+// type ReceivedPost = {
+//   createdAt: Date;
+//   creator: string;
+//   title: string;
+//   message: string;
+//   likecount: number;
+//   tags: string;
+//   _id: string;
+//   selectedFile: string;
+// };
 
-export function Post({ post }: Post) {
+// interface Post {
+//   post: ReceivedPost;
+// }
+
+// interface IIncrementedId {
+//   _id: string;
+//   likecount: number;
+// }
+
+export function Post({ post }) {
   const classes = useStyles();
 
   const dispatch = useAppDispatch();
 
   function getPostId() {
     dispatch(setselectedId(post._id));
+  }
+
+  async function handleLike() {
+    dispatch(IncrementLike({ _id: post._id, likecount: post.likecount }));
+
+    dispatch(incrementLike(post._id));
   }
 
   return (
@@ -76,7 +92,7 @@ export function Post({ post }: Post) {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button size='small' color='primary'>
+        <Button size='small' color='primary' onClick={handleLike}>
           <ThumbUpAltIcon fontSize='small' /> Like {post.likecount}{' '}
         </Button>
         <Button size='small' color='primary'>

@@ -1,7 +1,11 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { API } from '../../Api/api';
-import axios from 'axios';
+import {
+  CreatePost,
+  FetchPosts,
+  EditPost,
+  IncrementLike,
+} from './PostReducer-Thunks';
 
 interface Posts {
   title?: string;
@@ -22,22 +26,6 @@ interface newPost {
   selectedFile?: string | ArrayBuffer | null;
 }
 
-const api = new API();
-
-export const FetchPosts = createAsyncThunk('Posts/FetchPosts', async () => {
-  const data = await api.getPosts('posts');
-  return data;
-});
-
-export const CreatePost = createAsyncThunk(
-  'Posts/CreatePost',
-  async (post: newPost) => {
-    const data = await api.createPost('posts/createpost', post);
-
-    return data;
-  }
-);
-
 export const PostsSlice = createSlice({
   name: 'Posts',
   initialState: {
@@ -52,25 +40,45 @@ export const PostsSlice = createSlice({
     clearSelectedPostId: (state) => {
       state.selectedPostId = null;
     },
+    incrementLike: (state, action) => {
+      state.posts = state.posts.map((post) =>
+        post._id === action.payload
+          ? { ...post, likecount: (post.likecount += 1) }
+          : post
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(FetchPosts.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(FetchPosts.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.posts = action.payload;
-      })
+      .addCase(
+        FetchPosts.fulfilled,
+        (state, action: PayloadAction<Posts[]>) => {
+          state.status = 'idle';
+          state.posts = action.payload;
+        }
+      )
       .addCase(CreatePost.pending, (state) => {
         state.status = 'loading';
       })
       .addCase(CreatePost.fulfilled, (state) => {
         state.status = 'idle';
+      })
+      .addCase(EditPost.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(EditPost.fulfilled, (state, action) => {
+        state.status = 'idle';
+      })
+      .addCase(IncrementLike.fulfilled, (state) => {
+        state.status = 'idle';
       });
   },
 });
 
-export const { setselectedId, clearSelectedPostId } = PostsSlice.actions;
+export const { setselectedId, clearSelectedPostId, incrementLike } =
+  PostsSlice.actions;
 
 export default PostsSlice.reducer;

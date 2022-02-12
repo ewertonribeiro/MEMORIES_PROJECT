@@ -4,6 +4,8 @@ import { CreatePostController } from './CreatePostController';
 import { CreatePostService } from '../Services/createPostService';
 import { EditPostController } from './EditPostControoler';
 import { EditPostService } from '../Services/EditPostService';
+import { IncrementLikeController } from './IncrementLikeController';
+import { incrementLikeService } from '../Services/IncrementlikeService';
 
 //Get Post
 const getPostService = new GetPostsService();
@@ -20,4 +22,15 @@ const editPostService = new EditPostService();
 const editPostController = new EditPostController(editPostService);
 ////
 
-export { getPostController, createPostController, editPostController };
+//Increment Like
+const IncrementLikeService = new incrementLikeService();
+const incrementLikeController = new IncrementLikeController(
+  IncrementLikeService
+);
+
+export {
+  getPostController,
+  createPostController,
+  editPostController,
+  incrementLikeController,
+};

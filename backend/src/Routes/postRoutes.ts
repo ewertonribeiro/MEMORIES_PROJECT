@@ -3,6 +3,7 @@ import {
   getPostController,
   createPostController,
   editPostController,
+  incrementLikeController,
 } from '../Controllers';
 
 export const postRouter = Router();
@@ -15,4 +16,8 @@ postRouter.post('/createpost', (req, res) =>
 
 postRouter.patch('/editpost', (req, res) =>
   editPostController.editpost(req, res)
+);
+
+postRouter.put('/incrementlike', (req, res) =>
+  incrementLikeController.incrementLike(req, res)
 );

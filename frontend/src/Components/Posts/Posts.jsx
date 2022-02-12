@@ -7,8 +7,6 @@ import { useEffect, useState } from 'react';
 
 import { CircularProgress, Grid } from '@material-ui/core';
 
-import { FetchPosts } from '../../Redux/Reducers/PostsReducer';
-
 export function Posts() {
   const classes = useStyles();
 

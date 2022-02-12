@@ -5,7 +5,14 @@ import useStyles from './style.js';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 
 import { useAppDispatch, useAppSelector } from '../../Redux/ReduxHooks';
-import { CreatePost, FetchPosts } from '../../Redux/Reducers/PostsReducer';
+
+import { clearSelectedPostId } from '../../Redux/Reducers/PostsReducer';
+
+import {
+  CreatePost,
+  FetchPosts,
+  EditPost,
+} from '../../Redux/Reducers/PostReducer-Thunks';
 // interface Posts {
 //   title?: string;
 //   message?: string;
@@ -54,7 +61,21 @@ export function Form() {
         dispatch(FetchPosts());
       }, 1000);
     } else {
-      console.log(selectedPost);
+      const newEditedPost = {
+        title: postData.title,
+        message: postData.message,
+        tags: postData.tags,
+        creator: postData.creator,
+        selectedFile: selectedPost.selectedFile,
+        _id: selectedPost._id,
+      };
+      dispatch(EditPost(newEditedPost));
+
+      setPostData(() => {
+        dispatch(FetchPosts());
+      }, 1000);
+
+      dispatch(clearSelectedPostId());
     }
 
     clear();
@@ -147,6 +168,7 @@ export function Form() {
             size='large'
             color='primary'
             fullWidth
+            onClick={handleSubmit}
           >
             Submit
           </Button>

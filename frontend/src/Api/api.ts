@@ -43,6 +43,19 @@ class API {
       throw new Error(error.message);
     }
   }
+
+  async incrementLike(_id: string, likecount: number) {
+    try {
+      const { data } = await axios.put(`${this.baseUrl}/posts/incrementlike`, {
+        _id,
+        likecount,
+      });
+
+      return data;
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
 }
 
 export { API };
