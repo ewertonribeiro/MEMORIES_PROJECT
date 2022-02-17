@@ -56,6 +56,14 @@ class API {
       throw new Error(error);
     }
   }
+
+  async deletePost(_id: string) {
+    try {
+      await axios.delete(`${this.baseUrl}/posts/${_id}/deletepost`);
+    } catch (error: any) {
+      alert(error);
+    }
+  }
 }
 
 export { API };

@@ -4,6 +4,7 @@ import {
   createPostController,
   editPostController,
   incrementLikeController,
+  deletePostController,
 } from '../Controllers';
 
 export const postRouter = Router();
@@ -20,4 +21,8 @@ postRouter.patch('/editpost', (req, res) =>
 
 postRouter.put('/incrementlike', (req, res) =>
   incrementLikeController.incrementLike(req, res)
+);
+
+postRouter.delete('/:_id/deletepost', (req, res) =>
+  deletePostController.deletepost(req, res)
 );

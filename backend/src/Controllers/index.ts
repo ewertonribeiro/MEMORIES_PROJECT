@@ -6,6 +6,8 @@ import { EditPostController } from './EditPostControoler';
 import { EditPostService } from '../Services/EditPostService';
 import { IncrementLikeController } from './IncrementLikeController';
 import { incrementLikeService } from '../Services/IncrementlikeService';
+import { DeletePostController } from './DeletePostController';
+import { DeletePostService } from '../Services/DetelePostService';
 
 //Get Post
 const getPostService = new GetPostsService();
@@ -28,9 +30,17 @@ const incrementLikeController = new IncrementLikeController(
   IncrementLikeService
 );
 
+////
+
+//DeletePost
+const deletepostService = new DeletePostService();
+const deletePostController = new DeletePostController(deletepostService);
+////
+
 export {
   getPostController,
   createPostController,
   editPostController,
   incrementLikeController,
+  deletePostController,
 };

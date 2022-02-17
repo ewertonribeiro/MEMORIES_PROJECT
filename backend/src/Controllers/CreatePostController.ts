@@ -7,7 +7,6 @@ export class CreatePostController {
 
   async createPost(req: Request, res: Response): Promise<Response> {
     const post = req.body as Post;
-    console.log(post);
     try {
       const newPost = await this.CreatePostService.handle(post);
 

@@ -5,6 +5,7 @@ import {
   FetchPosts,
   EditPost,
   IncrementLike,
+  DeletePost,
 } from './PostReducer-Thunks';
 
 interface Posts {
@@ -47,6 +48,11 @@ export const PostsSlice = createSlice({
           : post
       );
     },
+    deletepost: (state, action) => {
+      const id = state.posts.findIndex((post) => post._id === action.payload);
+
+      state.posts = state.posts.splice(1, id);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -74,11 +80,14 @@ export const PostsSlice = createSlice({
       })
       .addCase(IncrementLike.fulfilled, (state) => {
         state.status = 'idle';
+      })
+      .addCase(DeletePost.fulfilled, (state) => {
+        state.status = 'completed';
       });
   },
 });
 
-export const { setselectedId, clearSelectedPostId, incrementLike } =
+export const { setselectedId, clearSelectedPostId, incrementLike, deletepost } =
   PostsSlice.actions;
 
 export default PostsSlice.reducer;

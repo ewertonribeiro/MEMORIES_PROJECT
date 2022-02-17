@@ -15,9 +15,13 @@ import { useAppDispatch } from '../../../Redux/ReduxHooks';
 import {
   incrementLike,
   setselectedId,
+  deletepost,
 } from '../../../Redux/Reducers/PostsReducer';
 
-import { IncrementLike } from '../../../Redux/Reducers/PostReducer-Thunks';
+import {
+  IncrementLike,
+  DeletePost,
+} from '../../../Redux/Reducers/PostReducer-Thunks';
 
 // type ReceivedPost = {
 //   createdAt: Date;
@@ -49,9 +53,13 @@ export function Post({ post }) {
   }
 
   async function handleLike() {
-    dispatch(IncrementLike({ _id: post._id, likecount: post.likecount }));
-
     dispatch(incrementLike(post._id));
+    dispatch(IncrementLike({ _id: post._id, likecount: post.likecount }));
+  }
+
+  function handleDelete() {
+    dispatch(deletepost(post._id));
+    dispatch(DeletePost(post._id));
   }
 
   return (
@@ -95,7 +103,7 @@ export function Post({ post }) {
         <Button size='small' color='primary' onClick={handleLike}>
           <ThumbUpAltIcon fontSize='small' /> Like {post.likecount}{' '}
         </Button>
-        <Button size='small' color='primary'>
+        <Button size='small' color='primary' onClick={handleDelete}>
           <DeleteIcon fontSize='small' /> Delete
         </Button>
       </CardActions>

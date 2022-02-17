@@ -49,15 +49,28 @@ export const EditPost = createAsyncThunk(
   }
 );
 
-interface IIncrementId {
+interface IIncrementLike {
   _id: string;
   likecount: number;
 }
 export const IncrementLike = createAsyncThunk(
   'posts/incrementLike',
-  async ({ _id, likecount }: IIncrementId) => {
+  async ({ _id, likecount }: IIncrementLike) => {
     const data = await api.incrementLike(_id, likecount);
 
     return data;
+  }
+);
+
+export const DeletePost = createAsyncThunk(
+  'posts/DeletePost',
+  async (_id: string) => {
+    try {
+      await api.deletePost(_id);
+
+      return _id;
+    } catch (error: any) {
+      console.log(error);
+    }
   }
 );
