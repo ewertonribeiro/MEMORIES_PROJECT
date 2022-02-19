@@ -12,13 +12,12 @@ class API {
   private baseUrl: string;
 
   constructor() {
-    this.baseUrl = 'http://localhost:5000';
+    this.baseUrl = 'https://memories-social-backend.herokuapp.com';
   }
 
   async getPosts(param: string) {
     try {
       const { data } = await axios.get(`${this.baseUrl}/${param}`);
-
       return data;
     } catch (e: any) {
       throw new Error(e.message);
